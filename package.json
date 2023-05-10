@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/ukoloff/kte.db/issues"
   },
-  "homepage": "https://github.com/ukoloff/kte.db#readme"
+  "homepage": "https://github.com/ukoloff/kte.db#readme",
+  "dependencies": {
+    "node-xlsx": "^0.21.2"
+  }
 }
