@@ -1,3 +1,1 @@
-let db = require('./db')
-
-console.log(db)
+require('./end0')
