@@ -1,6 +1,6 @@
 // * MESSAGEBOX("Торец черновая ",0," ")
 
-const db = require('../db')
+const query = require('./query')
 const src = require('./in')
 
-console.log(src)
+query(src)
