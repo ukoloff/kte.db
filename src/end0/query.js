@@ -7,8 +7,8 @@ module.exports = query
 
 function query(m) {
   var cur_metal = metal(m)
-  for (const grp of prioritets(m)) {
-    m.Kd_gr_rezc = grp
+  for (const grpX of prioritets(m)) {
+    m.Kd_gr_rezc = grpX
   }
 }
 
