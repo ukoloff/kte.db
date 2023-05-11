@@ -7,8 +7,24 @@ module.exports = query
 
 function query(m) {
   var cur_metal = metal(m)
-  for (const grpX of prioritets(m)) {
-    m.Kd_gr_rezc = grpX
+  for (const Kd_gr_rezc of prioritets(m)) {
+    var rezc_tmp = db.cutters.filter(x => x.TIP == Kd_gr_rezc && x.DIRECT == m.direction)
+    if (rezc_tmp.length < 1) continue
+    rezc_tmp = rezc_tmp[0]
+    m.kod_instr = rezc_tmp.INSTR_ID
+    m.name_instr = rezc_tmp.NAME
+    m.obozn_instr = rezc_tmp.OBOZN
+
+    // * Проверка сплава
+    m.cur_splav = rezc_tmp.MAT_NAME.trim().toUpperCase()
+    m.cur_SMG = cur_metal.SMG[0].toUpperCase()
+    var sss = db.SPLAV.filter(x => x.SPLAV.trim().toUpperCase() == m.cur_splav)
+    m.splav_ok = sss.length > 0 && sss[0]['SMG_' + m.cur_SMG].trim().length > 0
+    if (!m.splav_ok) {
+      m.warnings.push("МАТЕРИАЛ РЕЖУЩЕЙ ПЛАСТИНЫ НЕ РЕКОМЕДУЕТСЯ ДЛЯ ОБРАБОТКИ УКАЗАННОГО МАТЕРИАЛА ДЕТАЛИ")
+    }
+    m.instr_OK = true
+    break
   }
 }
 
