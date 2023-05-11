@@ -27,6 +27,13 @@ function query(m) {
     m.instr_OK = true
 
     // * Расчет режимов резания
+    m.Ar_max = rezc_tmp.ARMAX   // &&&  по режушщей пластине
+    m.ar_prip = 2.0             // && Для обработки торца припуск принят 2 мм
+    m.ar_obr = m.X_max / 20    // &&& по диаметру
+
+    m.ar_rasc = Math.min(m.Ar_max, m.ar_prip, m.ar_obr)
+
+    m.SMG_met = cur_metal.SMG.trim().toUpperCase()
 
     break
   }
