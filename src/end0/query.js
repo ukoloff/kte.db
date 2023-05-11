@@ -10,6 +10,7 @@ function query(m) {
   for (const Kd_gr_rezc of prioritets(m)) {
     var rezc_tmp = db.cutters.filter(x => x.TIP == Kd_gr_rezc && x.DIRECT == m.direction)
     if (rezc_tmp.length < 1) continue
+    rezc_tmp.sort((a, b) => a.PRIOR - b.PRIOR)
     rezc_tmp = rezc_tmp[0]
     m.kod_instr = rezc_tmp.INSTR_ID
     m.name_instr = rezc_tmp.NAME
@@ -24,6 +25,9 @@ function query(m) {
       m.warnings.push("МАТЕРИАЛ РЕЖУЩЕЙ ПЛАСТИНЫ НЕ РЕКОМЕДУЕТСЯ ДЛЯ ОБРАБОТКИ УКАЗАННОГО МАТЕРИАЛА ДЕТАЛИ")
     }
     m.instr_OK = true
+
+    // * Расчет режимов резания
+
     break
   }
 }
