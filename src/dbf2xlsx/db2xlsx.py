@@ -19,4 +19,5 @@ for db in src.glob('*.dbf'):
     ws.write_row(0, 0, dbf.field_names)
     for i, record in enumerate(dbf):
         ws.write_row(i + 1, 0, record.values())
+    ws.autofit()
 xlsx.close()
