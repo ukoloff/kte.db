@@ -8,6 +8,7 @@ module.exports = query
 function query(m) {
   var cur_metal = metal(m)
   for (const Kd_gr_rezc of prioritets(m)) {
+    // * разбор инструмента
     var rezc_tmp = db.cutters.filter(x => x.TIP == Kd_gr_rezc && x.DIRECT == m.direction)
     if (rezc_tmp.length < 1) continue
     rezc_tmp.sort((a, b) => a.PRIOR - b.PRIOR)
@@ -40,6 +41,7 @@ function query(m) {
 }
 
 function prioritets(m) {
+  // * Скачаем строку Приоритетов выбора инструмента
   var ps = db.prioritet.filter(x => x.KTE == m.cur_kte && x.CHIST == m.cur_chist)
   if (ps.length != 1) {
     m.errors.push("Error looking for priority ${m.cur_kte}:${m.cur_chist}")
