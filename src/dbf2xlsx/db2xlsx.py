@@ -17,4 +17,6 @@ for db in src.glob('*.dbf'):
     dbf = DBF(db)
     ws = xlsx.add_worksheet(db.stem)
     ws.write_row(0, 0, dbf.field_names)
+    for i, record in enumerate(dbf):
+        ws.write_row(i + 1, 0, record.values())
 xlsx.close()
