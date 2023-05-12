@@ -1,9 +1,13 @@
 from pathlib import Path
 from dbfread import DBF
+from xlsxwriter import Workbook
 
-me = Path(__file__).parent
+me = Path(__file__).parents[2]
 
-src = me.parents[2] / "kte.wiki/Bog"
+src = me.parent / "kte.wiki/Bog"
+dst = me / "tmp/kte.xlsx"
+xlsx = Workbook(dst)
+
 for db in src.glob('*.dbf'):
     if 'tmp' in db.stem.lower():
         continue
@@ -11,4 +15,6 @@ for db in src.glob('*.dbf'):
         continue
     print(db.stem, end=' ')
     dbf = DBF(db)
-    print(dbf.field_names)
+    ws = xlsx.add_worksheet(db.stem)
+
+xlsx.close()
