@@ -16,5 +16,5 @@ for db in src.glob('*.dbf'):
     print(db.stem, end=' ')
     dbf = DBF(db)
     ws = xlsx.add_worksheet(db.stem)
-
+    ws.write_row(0, 0, dbf.field_names)
 xlsx.close()
