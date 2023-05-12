@@ -1,5 +1,6 @@
 // * MESSAGEBOX("Торец черновая ",0," ")
 const compact = require('lodash/compact')
+const orderBy = require('lodash/orderBy')
 
 const db = require('../db')
 const metal = require('./metal')
@@ -10,10 +11,10 @@ function query(m) {
   var cur_metal = metal(m)
   for (const Kd_gr_rezc of prioritets(m)) {
     // * разбор инструмента
+    // SELECT * from Cutters WHERE tip=m.Kd_gr_rezc  AND direct= m.direction  INTO TABLE rezc_tmp ORDER BY prior
     var rezc_tmp = db.cutters.filter(x => x.TIP == Kd_gr_rezc && x.DIRECT == m.direction)
     if (rezc_tmp.length < 1) continue
-    rezc_tmp.sort((a, b) => a.PRIOR - b.PRIOR)
-    rezc_tmp = rezc_tmp[0]
+    rezc_tmp = orderBy(rezc_tmp, 'PRIOR')[0]
     m.kod_instr = rezc_tmp.INSTR_ID
     m.name_instr = rezc_tmp.NAME
     m.obozn_instr = rezc_tmp.OBOZN
@@ -21,10 +22,11 @@ function query(m) {
     // * Проверка сплава
     m.cur_splav = rezc_tmp.MAT_NAME.trim().toUpperCase()
     m.cur_SMG = cur_metal.SMG[0].toUpperCase()
+    // SELECT * from splav WHERE ALLTRIM(UPPER(splav)) = m.cur_splav  INTO CURSOR  sss_
     var sss = db.SPLAV.filter(x => x.SPLAV.trim().toUpperCase() == m.cur_splav)
     m.splav_ok = sss.length > 0 && sss[0]['SMG_' + m.cur_SMG].trim().length > 0
     if (!m.splav_ok) {
-      m.warnings.push("МАТЕРИАЛ РЕЖУЩЕЙ ПЛАСТИНЫ НЕ РЕКОМЕДУЕТСЯ ДЛЯ ОБРАБОТКИ УКАЗАННОГО МАТЕРИАЛА ДЕТАЛИ")
+      m.warnings.push("МАТЕРИАЛ РЕЖУЩЕЙ ПЛАСТИНЫ НЕ РЕКОМЕНДУЕТСЯ ДЛЯ ОБРАБОТКИ УКАЗАННОГО МАТЕРИАЛА ДЕТАЛИ")
     }
     m.instr_OK = true
 
@@ -36,8 +38,9 @@ function query(m) {
     m.ar_rasc = Math.min(m.Ar_max, m.ar_prip, m.ar_obr)
 
     m.SMG_met = cur_metal.SMG.trim().toUpperCase()
+    // SELECT * from TURN_1 WHERE UPPER(smg)= m.SMG_met  AND ar <= m.ar_rasc  INTO CURSOR regim_ order BY ar desc, f desc
     var regim = db.turn_1.filter(x => x.SMG.toUpperCase() == m.SMG_met && x.AR <= m.ar_rasc)
-    // TODO: sort regim order BY ar desc, f desc
+    regim = orderBy(regim, ['AR', 'F'], ['desc', 'desc'])
     if (!regim.length) {
       m.errors.push("Режим резания не найден")
       regim = [{}]
@@ -53,7 +56,7 @@ function query(m) {
       // *корректировка  V  от прочности материала
       const koef = (cur_metal.MPA / cur_metal.ETAL_MPA) * 100
       var k_mpa = db.k_mpa.filter(x => x.MPA_PROC >= koef)
-      // TODO: sort k_mpa order by MPA_PROC
+      k_mpa = orderBy(k_mpa, 'MPA_PROC')
       if (k_mpa.length > 0) {
         let kmpa = k_mpa[0].KMPA
         if (kmpa != 1) {

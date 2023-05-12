@@ -10,6 +10,7 @@ function mat(m) {
   m.errors = []
   m.warnings = []
 
+  // SELECT * from METAL WHERE id_mat= m.cur_id_mat  INTO CURSOR Cur_metal_
   var metal = db.METAL.filter(x => x.ID_MAT == m.cur_id_mat)
   if (metal.length < 1) {
     m.errors.push(`Metal #${m.cur_id_mat} not found`)
