@@ -1,8 +1,10 @@
 // * MESSAGEBOX("Торец черновая ",0," ")
 const compact = require('lodash/compact')
 const orderBy = require('lodash/orderBy')
+const round = require('lodash/round')
 
 const db = require('../db')
+const bench = require('./bench')
 const metal = require('./metal')
 
 module.exports = query
@@ -65,7 +67,43 @@ function query(m) {
       }
     }
 
+    // * проверка по мощности и усилиям резания
+    m.min_f = 0
+    m.kc = cur_metal.KC
 
+    let P_rasc = (m.ar_rasc * m.F_tabl * m.V_tabl * m.kc) / (60 * 1000 * 0.85)
+    if (P_rasc > bench.P_tc) {
+      m.ar_rasc = (60 * 1000 * 0.85 * bench.P_tc) / (m.F_tabl * m.V_tabl * m.kc)
+      // *   нормирование  до 0.5, 1, 1.5, 2, 2.5, 3
+      m.ar_rasc = clamp(0.5, 3, Math.floor(m.ar_rasc * 2) / 2)
+    }
+
+    // * Проверка по крутящему моменту
+
+    let m_rasc = m.ar_rasc * m.F_tabl * m.kc * m.X_max / 1000
+    m.f2 = m.F_tabl
+    if (m_rasc > bench.M_tc) {
+      m.f2 *= bench.M_tc / m_rasc
+      m.f2 = round(m.f2, 3)
+    }
+
+    // *Проверка по усилию подач
+    m.F_mx = 4000 // Duplicate in bench.js ???
+    m.F_mz = 6000 // --//--
+
+    m.F_rasc = m.ar_rasc * m.f2 * m.kc * 0.35
+
+    if (m.F_rasc > bench.F_mx) {
+      m.f2 *= bench.F_mx / m.F_rasc
+    }
+
+    m.V = m.V_tabl
+    m.F = m.f2
+    m.Ar = m.ar_rasc
+
+    // Not used???
+    P_rasc = (m.Ar * m.f2 * m.V_tabl * m.kc) / (60 * 1000 * 0.85)
+    m_rasc = (m.Ar * m.f2 * m.kc * m.X_max / 1000)
 
     break
   }
@@ -82,4 +120,8 @@ function prioritets(m) {
   return compact(Object.keys(ps)
     .filter(x => /^pri\D*\d+$/i.test(x))
     .map(x => ps[x]))
+}
+
+function clamp(min, max, x) {
+  return Math.max(min, Math.min(max, x))
 }
