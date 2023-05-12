@@ -1,4 +1,5 @@
 // * MESSAGEBOX("Торец черновая ",0," ")
+const compact = require('lodash/compact')
 
 const db = require('../db')
 const metal = require('./metal')
@@ -75,8 +76,7 @@ function prioritets(m) {
     return
   }
   ps = ps[0]
-  return Object.keys(ps)
+  return compact(Object.keys(ps)
     .filter(x => /^pri\D*\d+$/i.test(x))
-    .map(x => ps[x])
-    .filter(x => x)
+    .map(x => ps[x]))
 }
