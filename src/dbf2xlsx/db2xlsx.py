@@ -18,6 +18,10 @@ for db in src.glob('*.dbf'):
     ws = xlsx.add_worksheet(db.stem)
     ws.write_row(0, 0, dbf.field_names)
     for i, record in enumerate(dbf):
+        # Fix for METAL.MATER_TYP encoding
+        if 'MATER_TYP' in record:
+            record['MATER_TYP'] = record['MATER_TYP'].encode('1251').decode('866')
         ws.write_row(i + 1, 0, record.values())
     ws.autofit()
+
 xlsx.close()
