@@ -103,7 +103,7 @@ function query(m) {
 
     // Not used???
     P_rasc = (m.Ar * m.f2 * m.V_tabl * m.kc) / (60 * 1000 * 0.85)
-    m_rasc = (m.Ar * m.f2 * m.kc * m.X_max / 1000)
+    m_rasc = m.Ar * m.f2 * m.kc * m.X_max / 1000
 
     break
   }
