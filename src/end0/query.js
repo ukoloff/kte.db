@@ -35,6 +35,33 @@ function query(m) {
     m.ar_rasc = Math.min(m.Ar_max, m.ar_prip, m.ar_obr)
 
     m.SMG_met = cur_metal.SMG.trim().toUpperCase()
+    var regim = db.turn_1.filter(x => x.SMG.toUpperCase() == m.SMG_met && x.AR <= m.ar_rasc)
+    // TODO: sort regim order BY ar desc, f desc
+    if (!regim.length) {
+      m.errors.push("Режим резания не найден")
+      regim = [{}]
+    }
+    regim = regim[0]
+    m.F_tabl = regim.F
+    m.V_tabl = regim.V
+
+    // &&& Корректировка от твердости
+    if (m.hardness > 35) {
+      m.warnings.push("Расчет для закаленных сталей пока в разработке")
+    } else {
+      // *корректировка  V  от прочности материала
+      const koef = (cur_metal.MPA / cur_metal.ETAL_MPA) * 100
+      var k_mpa = db.k_mpa.filter(x => x.MPA_PROC >= koef)
+      // TODO: sort k_mpa order by MPA_PROC
+      if (k_mpa.length > 0) {
+        let kmpa = k_mpa[0].KMPA
+        if (kmpa != 1) {
+          m.V_tabl = Math.trunc(m.V_tabl * kmpa)
+        }
+      }
+    }
+
+
 
     break
   }
