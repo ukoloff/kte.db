@@ -1,4 +1,5 @@
 from pathlib import Path
+from dbfread import DBF
 
 me = Path(__file__).parent
 
@@ -9,3 +10,5 @@ for db in src.glob('*.dbf'):
     if 'foxuser' == db.stem.lower():
         continue
     print(db.stem, end=' ')
+    dbf = DBF(db)
+    print(dbf.field_names)
