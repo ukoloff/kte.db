@@ -4,7 +4,7 @@
 
 module.exports = {
   cur_kte: 1,     // Торец
-  cur_chist: 0,
+  cur_chist: 1,
   cur_id_mat: 77,
   hardness: 0,
   X_max: 25,
