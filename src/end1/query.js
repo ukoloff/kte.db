@@ -36,9 +36,9 @@ function query(m) {
     m.ar_rasc = 0.5
 
     m.SMG_met = cur_metal.SMG.trim().toUpperCase()
-    // SELECT * from TURN_1 WHERE UPPER(smg)= m.SMG_met  AND ar <= m.ar_rasc  INTO CURSOR regim_ order BY ar desc, f desc
+    // SELECT * from TURN_1 WHERE UPPER(smg)= m.SMG_met  AND ar <= m.ar_rasc  INTO CURSOR regim_ order BY ar asc, f asc
     var regim = db.turn_1.filter(x => x.SMG.toUpperCase() == m.SMG_met && x.AR <= m.ar_rasc)
-    regim = orderBy(regim, ['AR', 'F'], ['desc', 'desc'])
+    regim = orderBy(regim, ['AR', 'F'], ['asc', 'asc'])
     if (!regim.length) {
       m.errors.push("Режим резания не найден")
       regim = [{}]
@@ -50,7 +50,13 @@ function query(m) {
     // * выбор подачи от радиуса ппластинки
     m.rrr=m.roughness
 
-
+    // SELECT * from R_shift WHERE ra<=m.rrr AND r = m.re  INTO CURSOR fff_  order BY ra desc
+    var fff = db.R_shift.filter(x => x.R <= m.rrr && x.R == rezc_tmp.RE)
+    fff = orderBy(fff, 'RA', 'desc')
+    if (fff.length < 1) {
+      m.errors.push("No record in R_shift found!")
+    }
+    m.F_tabl = Math.min(m.F_tabl, fff[0].F)
 //----------------------
 
     // &&& Корректировка от твердости
@@ -69,43 +75,15 @@ function query(m) {
       }
     }
 
-    // * проверка по мощности и усилиям резания
-    m.min_f = 0
     m.kc = cur_metal.KC
 
-    let P_rasc = (m.ar_rasc * m.F_tabl * m.V_tabl * m.kc) / (60 * 1000 * 0.85)
-    if (P_rasc > bench.P_tc) {
-      m.ar_rasc = (60 * 1000 * 0.85 * bench.P_tc) / (m.F_tabl * m.V_tabl * m.kc)
-      // *   нормирование  до 0.5, 1, 1.5, 2, 2.5, 3
-      m.ar_rasc = clamp(0.5, 3, Math.floor(m.ar_rasc * 2) / 2)
-    }
-
-    // * Проверка по крутящему моменту
-
-    let m_rasc = m.ar_rasc * m.F_tabl * m.kc * m.X_max / 1000
-    m.f2 = m.F_tabl
-    if (m_rasc > bench.M_tc) {
-      m.f2 *= bench.M_tc / m_rasc
-      m.f2 = round(m.f2, 3)
-    }
-
-    // *Проверка по усилию подач
-    m.F_mx = 4000 // Duplicate in bench.js ???
-    m.F_mz = 6000 // --//--
-
-    m.F_rasc = m.ar_rasc * m.f2 * m.kc * 0.35
-
-    if (m.F_rasc > bench.F_mx) {
-      m.f2 *= bench.F_mx / m.F_rasc
-    }
-
     m.V = m.V_tabl
-    m.F = m.f2
+    m.F = m.F_tabl
     m.Ar = m.ar_rasc
 
     // Not used???
-    P_rasc = (m.Ar * m.f2 * m.V_tabl * m.kc) / (60 * 1000 * 0.85)
-    m_rasc = m.Ar * m.f2 * m.kc * m.X_max / 1000
+    let P_rasc = (m.Ar * m.F * m.V * m.kc) / (60 * 1000 * 0.85)
+    let m_rasc = m.Ar * m.F * m.kc * m.X_max / 1000
 
     break
   }
