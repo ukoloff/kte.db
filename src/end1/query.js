@@ -1,4 +1,4 @@
-// * MESSAGEBOX("Торец черновая ",0," ")
+// * MESSAGEBOX("Торец чистовая ",0," ")
 const compact = require('lodash/compact')
 const orderBy = require('lodash/orderBy')
 const round = require('lodash/round')
@@ -33,11 +33,7 @@ function query(m) {
     m.instr_OK = true
 
     // * Расчет режимов резания
-    m.Ar_max = rezc_tmp.ARMAX   // &&&  по режушщей пластине
-    m.ar_prip = 2.0             // && Для обработки торца припуск принят 2 мм
-    m.ar_obr = m.X_max / 20    // &&& по диаметру
-
-    m.ar_rasc = Math.min(m.Ar_max, m.ar_prip, m.ar_obr)
+    m.ar_rasc = 0.5
 
     m.SMG_met = cur_metal.SMG.trim().toUpperCase()
     // SELECT * from TURN_1 WHERE UPPER(smg)= m.SMG_met  AND ar <= m.ar_rasc  INTO CURSOR regim_ order BY ar desc, f desc
@@ -50,6 +46,12 @@ function query(m) {
     regim = regim[0]
     m.F_tabl = regim.F
     m.V_tabl = regim.V
+
+    // * выбор подачи от радиуса ппластинки
+    m.rrr=m.roughness
+
+
+//----------------------
 
     // &&& Корректировка от твердости
     if (m.hardness > 35) {
