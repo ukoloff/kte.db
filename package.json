@@ -4,7 +4,7 @@
   "description": "Search for lathing tool using JavaScript",
   "main": "src",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,10 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "node-xlsx": "^0.21.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "choma": "^1.2.1",
+    "mocha": "^10.2.0"
   }
 }
