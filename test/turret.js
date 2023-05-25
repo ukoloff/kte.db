@@ -1,8 +1,11 @@
+
 const fs = require('fs')
 const path = require('path')
 const yaml = require('js-yaml')
+const { expect } = require('chai')
 
 const dispatch = require('../src/dispatch')
+const extract = require('../src/extract')
 
 describe("Find tool", context)
 
@@ -18,6 +21,8 @@ function context() {
     kte.name = kte.name || path.parse(f.name).name
     ktes.push(kte)
   }
+  d.close(x => x)
+
   const only = ktes.filter(x => 'only' in x).length > 0
   ktes.forEach(kte => {
     it(kte.name, function() {
@@ -25,6 +30,7 @@ function context() {
       if (only && !('only' in kte)) this.skip()
 
       dispatch(kte)
+      expect(extract(kte)).to.eql(kte.eq2)
     })
   })
 }

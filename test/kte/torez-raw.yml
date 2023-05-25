@@ -18,8 +18,9 @@ roughness: 6.3
 direction: R
 
 # Output:
-kod_instr: 5
-obozn_instr: SCLCR1212M09
-Ar: 1.25
-F: 0.25
-V: 148
+eq2:
+  kod_instr: 5
+  obozn_instr: SCLCR1212M09
+  Ar: 1.25
+  F: 0.25
+  V: 148
