@@ -85,8 +85,9 @@ function query(m) {
     let P_rasc = (m.Ar * m.F * m.V * m.kc) / (60 * 1000 * 0.85)
     let m_rasc = m.Ar * m.F * m.kc * m.X_max / 1000
 
-    break
+    return
   }
+  m.errors.push('В СПРАВОЧНИКЕ РЕЗЦОВ ИНСТРУМЕНТ НЕ НАЙДЕН')
 }
 
 function prioritets(m) {

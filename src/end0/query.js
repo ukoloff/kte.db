@@ -105,8 +105,9 @@ function query(m) {
     P_rasc = (m.Ar * m.f2 * m.V_tabl * m.kc) / (60 * 1000 * 0.85)
     m_rasc = m.Ar * m.f2 * m.kc * m.X_max / 1000
 
-    break
+    return
   }
+  m.errors.push('В СПРАВОЧНИКЕ РЕЗЦОВ ИНСТРУМЕНТ НЕ НАЙДЕН')
 }
 
 function prioritets(m) {
