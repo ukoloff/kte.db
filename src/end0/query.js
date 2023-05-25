@@ -1,11 +1,11 @@
 // * MESSAGEBOX("Торец черновая ",0," ")
-const compact = require('lodash/compact')
 const orderBy = require('lodash/orderBy')
 const round = require('lodash/round')
 
 const db = require('../db')
-const bench = require('./bench')
-const metal = require('./metal')
+const prioritets = require('../prioritets')
+const bench = require('../bench')
+const metal = require('../metal')
 
 module.exports = query
 
@@ -108,19 +108,6 @@ function query(m) {
     return
   }
   m.errors.push('В СПРАВОЧНИКЕ РЕЗЦОВ ИНСТРУМЕНТ НЕ НАЙДЕН')
-}
-
-function prioritets(m) {
-  // * Скачаем строку Приоритетов выбора инструмента
-  var ps = db.prioritet.filter(x => x.KTE == m.cur_kte && x.CHIST == m.cur_chist)
-  if (ps.length != 1) {
-    m.errors.push("Error looking for priority ${m.cur_kte}:${m.cur_chist}")
-    return
-  }
-  ps = ps[0]
-  return compact(Object.keys(ps)
-    .filter(x => /^pri\D*\d+$/i.test(x))
-    .map(x => ps[x]))
 }
 
 function clamp(min, max, x) {
