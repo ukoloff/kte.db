@@ -17,6 +17,12 @@
     "url": "https://github.com/ukoloff/kte.db/issues"
   },
   "homepage": "https://github.com/ukoloff/kte.db#readme",
+  "mocha": {
+    "reporter": "dot",
+    "require": [
+      "choma"
+    ]
+  },
   "dependencies": {
     "lodash": "^4.17.21",
     "node-xlsx": "^0.21.2"
