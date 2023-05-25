@@ -6,10 +6,6 @@ const db = require('./db')
 module.exports = mat
 
 function mat(m) {
-  // Обязательные поля
-  m.errors = []
-  m.warnings = []
-
   // SELECT * from METAL WHERE id_mat= m.cur_id_mat  INTO CURSOR Cur_metal_
   var metal = db.METAL.filter(x => x.ID_MAT == m.cur_id_mat)
   if (metal.length < 1) {

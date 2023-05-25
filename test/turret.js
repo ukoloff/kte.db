@@ -2,6 +2,8 @@ const fs = require('fs')
 const path = require('path')
 const yaml = require('js-yaml')
 
+const dispatch = require('../src/dispatch')
+
 describe("Find tool", context)
 
 function context() {
@@ -21,7 +23,8 @@ function context() {
     it(kte.name, function() {
       if ('skip' in kte) this.skip()
       if (only && !('only' in kte)) this.skip()
-      // TODO: kte
+
+      dispatch(kte)
     })
   })
 }
