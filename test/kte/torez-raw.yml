@@ -1,0 +1,25 @@
+# name:
+# skip:
+# only:
+cur_kte: 1
+cur_chist: 0
+cur_id_mat: 77
+hardness: 0
+X_max: 25
+// X_min:
+// H_kan:
+// B_kan:
+// d_nach:
+// L_obr:
+// KOD_REZB:
+// P_pezb:
+// ugol_rezb:
+roughness: 6.3
+direction: R
+
+# Output:
+kod_instr: 5
+obozn_instr: SCLCR1212M09
+Ar: 1.25
+F: 0.25
+V: 148
