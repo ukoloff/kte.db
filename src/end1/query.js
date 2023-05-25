@@ -102,7 +102,3 @@ function prioritets(m) {
     .filter(x => /^pri\D*\d+$/i.test(x))
     .map(x => ps[x]))
 }
-
-function clamp(min, max, x) {
-  return Math.max(min, Math.min(max, x))
-}
