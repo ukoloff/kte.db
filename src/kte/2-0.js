@@ -4,6 +4,7 @@ const orderBy = require('lodash/orderBy')
 const round = require('lodash/round')
 
 const db = require('../db')
+const clamp053 = require('../clamp053')
 
 module.exports = query
 
@@ -30,7 +31,7 @@ function query(m) {
 
     // * Расчет режимов резания
     m.Ar_max = rezc_tmp.ARMAX     // &&&  по режушщей пластине
-    m.ar_prip= m.X_max - m.X_min  // &&&  по припуску
+    m.ar_prip = m.X_max - m.X_min  // &&&  по припуску
     m.ar_obr = m.X_max / 20       // &&& по диаметру
 
     m.ar_rasc = Math.min(m.Ar_max, m.ar_prip, m.ar_obr)
@@ -70,8 +71,7 @@ function query(m) {
     let P_rasc = (m.ar_rasc * m.F_tabl * m.V_tabl * m.kc) / (60 * 1000 * 0.85)
     if (P_rasc > m.$bench.P_tc) {
       m.ar_rasc = (60 * 1000 * 0.85 * m.$bench.P_tc) / (m.F_tabl * m.V_tabl * m.kc)
-      // *   нормирование  до 0.5, 1, 1.5, 2, 2.5, 3
-      m.ar_rasc = clamp(0.5, 3, Math.floor(m.ar_rasc * 2) / 2)
+      m.ar_rasc = clamp053(m.ar_rasc)
     }
 
     // * Проверка по крутящему моменту
@@ -101,9 +101,4 @@ function query(m) {
     return
   }
   m.errors.push('В СПРАВОЧНИКЕ РЕЗЦОВ ИНСТРУМЕНТ НЕ НАЙДЕН')
-}
-
-
-function clamp(min, max, x) {
-  return Math.max(min, Math.min(max, x))
 }
