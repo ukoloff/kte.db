@@ -19,8 +19,8 @@ direction: R
 
 # Output:
 eq2:
-  kod_instr: 5
-  obozn_instr: SCLCR1212M09
-  Ar: 1.25
+  kod_instr: 1
+  obozn_instr: SCGCR1212F09
+  Ar: 1
   F: 0.25
   V: 148
