@@ -3,15 +3,11 @@ const orderBy = require('lodash/orderBy')
 const round = require('lodash/round')
 
 const db = require('../db')
-const prioritets = require('../prioritets')
-const bench = require('../bench')
-const metal = require('../metal')
 
 module.exports = query
 
 function query(m) {
-  var cur_metal = metal(m)
-  for (const Kd_gr_rezc of prioritets(m)) {
+  for (const Kd_gr_rezc of m.$pri) {
     // * разбор инструмента
     // SELECT * from Cutters WHERE tip=m.Kd_gr_rezc  AND direct= m.direction  INTO TABLE rezc_tmp ORDER BY prior
     var rezc_tmp = db.cutters.filter(x => x.TIP == Kd_gr_rezc && x.DIRECT == m.direction)
@@ -23,7 +19,7 @@ function query(m) {
 
     // * Проверка сплава
     m.cur_splav = rezc_tmp.MAT_NAME.trim().toUpperCase()
-    m.cur_SMG = cur_metal.SMG[0].toUpperCase()
+    m.cur_SMG = m.$metal.SMG[0].toUpperCase()
     // SELECT * from splav WHERE ALLTRIM(UPPER(splav)) = m.cur_splav  INTO CURSOR  sss_
     var sss = db.SPLAV.filter(x => x.SPLAV.trim().toUpperCase() == m.cur_splav)
     m.splav_ok = sss.length > 0 && sss[0]['SMG_' + m.cur_SMG].trim().length > 0
@@ -35,7 +31,7 @@ function query(m) {
     // * Расчет режимов резания
     m.ar_rasc = 0.5
 
-    m.SMG_met = cur_metal.SMG.trim().toUpperCase()
+    m.SMG_met = m.$metal.SMG.trim().toUpperCase()
     // SELECT * from TURN_1 WHERE UPPER(smg)= m.SMG_met  AND ar <= m.ar_rasc  INTO CURSOR regim_ order BY ar asc, f asc
     var regim = db.turn_1.filter(x => x.SMG.toUpperCase() == m.SMG_met && x.AR <= m.ar_rasc)
     regim = orderBy(regim, ['AR', 'F'], ['asc', 'asc'])
@@ -64,7 +60,7 @@ function query(m) {
       m.warnings.push("Расчет для закаленных сталей пока в разработке")
     } else {
       // *корректировка  V  от прочности материала
-      const koef = (cur_metal.MPA / cur_metal.ETAL_MPA) * 100
+      const koef = (m.$metal.MPA / m.$metal.ETAL_MPA) * 100
       var k_mpa = db.k_mpa.filter(x => x.MPA_PROC >= koef)
       k_mpa = orderBy(k_mpa, 'MPA_PROC')
       if (k_mpa.length > 0) {
@@ -75,7 +71,7 @@ function query(m) {
       }
     }
 
-    m.kc = cur_metal.KC
+    m.kc = m.$metal.KC
 
     m.V = m.V_tabl
     m.F = m.F_tabl
