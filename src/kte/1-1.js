@@ -47,7 +47,7 @@ function query(m) {
     m.rrr=m.roughness
 
     // SELECT * from R_shift WHERE ra<=m.rrr AND r = m.re  INTO CURSOR fff_  order BY ra desc
-    var fff = db.R_shift.filter(x => x.R <= m.rrr && x.R == rezc_tmp.RE)
+    var fff = db.R_shift.filter(x => x.RA <= m.rrr && x.R == rezc_tmp.RE)
     fff = orderBy(fff, 'RA', 'desc')
     if (fff.length < 1) {
       m.errors.push("No record in R_shift found!")
