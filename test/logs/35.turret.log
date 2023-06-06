@@ -1,0 +1,42 @@
+KTE 12 opened left end
+> 1,0,77,0,32,0,0,0,0,0,0,0,0,0,R
+<    5,SCLCR1212M09             , 1.6,0.25, 148
+KTE 8 opened left top
+> 2,0,77,0,32,30,0,0,0,0,0,0,0,0,R
+<    1,SCGCR1212F09             , 1.6,0.25, 148
+KTE 9 semiopened left top
+> 3,0,77,0,30,19,0,0,0,0,0,0,0,3.2,R
+<    5,SCLCR1212M09             , 1.5,0.25, 148
+KTE 9 semiopened left top
+> 3,1,77,0,30,19,0,0,0,0,0,0,0,3.2,R
+<    5,SCLCR1212M09             , 0.5,0.14, 172
+KTE 11 notch_x closed left top
+> 4,0,77,0,21,19.5,1.5,4,0,0,0,0,0,0,R
+<   18,CFIR1212M04              , 4.0,0.18, 104
+KTE 2 opened left bottom
+> 16,0,77,0,6,0,0,0,0,0,0,0,0,0,R
+< 2291,SD245A-12.0-56-12R1         , 6.0,0.30, 156
+KTE 2 opened left bottom
+> 9,0,77,0,13,6,0,0,12,0,0,0,0,0,R
+<   23,E08K-SCFCR06-R           , 2.0,0.20, 100
+KTE 10 thread closed left top
+> 14,0,77,0,21,0,0,0,0,0,1,2,60,3.2,R
+<   41,CER1212H16Q   2.0        , 8.0,2.00, 120
+KTE 4 opened right end
+> 1,0,77,0,32,0,0,0,0,0,0,0,0,0,R
+<    5,SCLCR1212M09             , 1.6,0.25, 148
+KTE 5 semiopened right top
+> 3,0,77,0,30,19,0,0,0,0,0,0,0,3.2,R
+<    5,SCLCR1212M09             , 1.5,0.25, 148
+KTE 5 semiopened right top
+> 3,1,77,0,30,19,0,0,0,0,0,0,0,3.2,R
+<    5,SCLCR1212M09             , 0.5,0.14, 172
+KTE 7 notch_x closed right top
+> 4,0,77,0,21,19.5,1.5,4,0,0,0,0,0,0,R
+<   18,CFIR1212M04              , 4.0,0.18, 104
+KTE 3 semiopened right bottom
+> 10,0,77,0,18,13,0,0,26,1,0,0,0,0,R
+<   23,E08K-SCFCR06-R           , 2.0,0.20, 100
+KTE 6 thread closed right top
+> 14,0,77,0,21,0,0,0,0,0,1,2,60,3.2,R
+<   41,CER1212H16Q   2.0        , 8.0,2.00, 120

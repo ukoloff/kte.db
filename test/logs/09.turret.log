@@ -1,0 +1,33 @@
+KTE 10 opened left end
+> 1,0,77,0,22.5,0,0,0,0,0,0,0,0,6.3,R
+<    5,SCLCR1212M09             , 1.1,0.25, 148
+KTE 8 opened left top
+> 2,0,77,0,22.5,21,0,0,0,0,0,0,0,6.3,R
+<    1,SCGCR1212F09             , 1.1,0.25, 148
+KTE 9 semiopened left top
+> 3,0,77,0,21,19,0,0,0,0,0,0,0,6.3,R
+<    5,SCLCR1212M09             , 1.1,0.25, 148
+KTE 2 opened left bottom
+> 16,0,77,0,6,0,0,0,0,0,0,0,0,6.3,R
+< 2291,SD245A-12.0-56-12R1         , 6.0,0.30, 156
+KTE 2 opened left bottom
+> 9,0,77,0,8.5,6,0,0,12,0,0,0,0,6.3,R
+<   23,E08K-SCFCR06-R           , 2.0,0.20, 100
+KTE 6 opened right end
+> 1,0,77,0,22.5,0,0,0,0,0,0,0,0,6.3,R
+<    5,SCLCR1212M09             , 1.1,0.25, 148
+KTE 7 semiopened right top
+> 3,0,77,0,21,19,0,0,0,0,0,0,0,6.3,R
+<    5,SCLCR1212M09             , 1.1,0.25, 148
+KTE 3 semiopened right bottom
+> 10,0,77,0,16,8.5,0,0,17,1,0,0,0,3.2,R
+<   23,E08K-SCFCR06-R           , 2.0,0.20, 100
+KTE 3 semiopened right bottom
+> 10,1,77,0,16,8.5,0,0,17,1,0,0,0,3.2,R
+<   23,E08K-SCFCR06-R           , 0.5,0.20, 118
+KTE 5 undercut_x closed right bottom
+> 13,0,77,0,16,0,2,3.5,28,0,0,0,0,6.3,R
+<   31,E08H-SGXN11-R 2.0        , 2.0,0.02,  92
+KTE 4 thread closed right bottom
+> 15,0,77,0,15,0,0,0,28,0,1,2,60,3.2,R
+<   35,E06G-SGXN11-R  2.0       , 8.0,2.00, 120
